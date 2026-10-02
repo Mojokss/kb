@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#04100b">
+  <title>Poker</title>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','1399310622039113');
+  fbq('track','PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
+
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#030806}
+    body{
+      min-height:100svh;
+      overflow:hidden;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    .scene{
+      position:relative;
+      min-height:100svh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 18px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 50% 45%,rgba(20,112,70,.24),transparent 42%),
+        radial-gradient(circle at 50% 100%,rgba(196,146,50,.10),transparent 35%),
+        linear-gradient(180deg,#07110d 0%,#020504 100%);
+      isolation:isolate;
+    }
+    .scene:before{
+      content:"";
+      position:absolute;
+      inset:-25%;
+      z-index:-3;
+      opacity:.2;
+      background:
+        repeating-linear-gradient(115deg,transparent 0 55px,rgba(255,255,255,.025) 56px 57px);
+      transform:rotate(-5deg);
+    }
+    .halo{
+      position:absolute;
+      width:min(900px,95vw);
+      height:min(900px,95vw);
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(30,145,90,.13),transparent 65%);
+      filter:blur(12px);
+      z-index:-2;
+    }
+    .table-wrap{
+      position:relative;
+      width:min(900px,92vw);
+      height:min(570px,64vw);
+      min-height:330px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      filter:drop-shadow(0 40px 55px rgba(0,0,0,.65));
+    }
+    .table{
+      position:absolute;
+      inset:5% 2%;
+      border-radius:50%;
+      background:
+        radial-gradient(ellipse at 48% 38%,rgba(48,157,101,.24),transparent 38%),
+        radial-gradient(ellipse at center,#126642 0%,#0b4b31 58%,#073523 100%);
+      border:clamp(18px,3.5vw,38px) solid #261a0f;
+      box-shadow:
+        inset 0 0 0 6px #8e682f,
+        inset 0 0 0 12px rgba(0,0,0,.48),
+        inset 0 0 80px rgba(0,0,0,.38),
+        0 0 0 2px rgba(231,191,106,.16);
+    }
+    .table:before{
+      content:"";
+      position:absolute;
+      inset:8%;
+      border-radius:50%;
+      border:1px solid rgba(239,214,155,.15);
+      box-shadow:inset 0 0 50px rgba(0,0,0,.12);
+    }
+    .table:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      opacity:.15;
+      background:
+        repeating-radial-gradient(circle at 45% 42%,rgba(255,255,255,.12) 0 1px,transparent 1px 5px);
+      mix-blend-mode:soft-light;
+    }
+    .card{
+      position:absolute;
+      width:clamp(46px,7vw,70px);
+      height:clamp(66px,10vw,100px);
+      border-radius:9px;
+      background:linear-gradient(145deg,#fffef8,#e9e5d9);
+      box-shadow:0 10px 20px rgba(0,0,0,.28);
+      border:1px solid rgba(0,0,0,.14);
+      z-index:2;
+    }
+    .c1{left:39%;top:37%;transform:rotate(-8deg)}
+    .c2{left:47%;top:35%;transform:rotate(2deg)}
+    .c3{left:55%;top:38%;transform:rotate(10deg)}
+    .chip{
+      position:absolute;
+      width:clamp(34px,5vw,52px);
+      aspect-ratio:1;
+      border-radius:50%;
+      z-index:3;
+      border:5px dashed rgba(255,255,255,.75);
+      box-shadow:0 6px 12px rgba(0,0,0,.32),inset 0 0 0 4px rgba(0,0,0,.16);
+    }
+    .ch1{left:31%;top:55%;background:#b52b2b;transform:rotate(14deg)}
+    .ch2{left:35%;top:59%;background:#d6aa45}
+    .ch3{right:31%;top:55%;background:#20252a;transform:rotate(-12deg)}
+    .ch4{right:35%;top:61%;background:#f1eee5}
+    .cta{
+      position:absolute;
+      left:50%;
+      bottom:clamp(28px,5vh,58px);
+      transform:translateX(-50%);
+      z-index:10;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:min(360px,calc(100vw - 40px));
+      min-height:64px;
+      padding:0 30px;
+      border-radius:999px;
+      text-decoration:none;
+      color:#101008;
+      font-size:18px;
+      font-weight:850;
+      letter-spacing:-.02em;
+      background:linear-gradient(135deg,#ffe9a7 0%,#d3a340 55%,#f3d17c 100%);
+      box-shadow:
+        0 18px 45px rgba(211,163,64,.26),
+        inset 0 1px rgba(255,255,255,.75);
+      transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+    }
+    .cta:hover{
+      transform:translateX(-50%) translateY(-3px);
+      filter:brightness(1.07);
+      box-shadow:0 22px 55px rgba(211,163,64,.34),inset 0 1px rgba(255,255,255,.75);
+    }
+    .cta:active{transform:translateX(-50%) scale(.985)}
+    .cta:focus-visible{outline:3px solid #fff;outline-offset:5px}
+
+    @media(max-width:640px){
+      .scene{padding:12px}
+      .table-wrap{
+        width:118vw;
+        height:78vw;
+        min-height:350px;
+        transform:rotate(-2deg);
+      }
+      .table{inset:4% 0}
+      .cta{
+        bottom:max(26px,env(safe-area-inset-bottom));
+        min-height:62px;
+        font-size:17px;
+      }
+    }
+    @media(prefers-reduced-motion:reduce){.cta{transition:none}}
+  </style>
+</head>
+<body>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1399310622039113&ev=PageView&noscript=1" alt=""></noscript>
+
+  <main class="scene">
+    <div class="halo" aria-hidden="true"></div>
+    <div class="table-wrap" aria-hidden="true">
+      <div class="table"></div>
+      <div class="card c1"></div>
+      <div class="card c2"></div>
+      <div class="card c3"></div>
+      <div class="chip ch1"></div>
+      <div class="chip ch2"></div>
+      <div class="chip ch3"></div>
+      <div class="chip ch4"></div>
+    </div>
+
+    <a class="cta"
+       href="https://t.me/+WstRWb5Vwm9iYTAy"
+       target="_blank"
+       rel="noopener noreferrer"
+       onclick="if(window.fbq){fbq('track','Lead');}">
+      Открыть покер-рум
+    </a>
+  </main>
+</body>
+</html>
